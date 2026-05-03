@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>问卷调查</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 1.5rem;
+        }
+
+        .question {
+            font-size: 1.2rem;
+            color: #555;
+            margin-bottom: 25px;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option {
+            padding: 15px 20px;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            color: #444;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            background-color: #f5f7ff;
+            transform: translateX(5px);
+        }
+
+        .option.selected {
+            border-color: #667eea;
+            background-color: #eef1ff;
+            color: #667eea;
+        }
+
+        .option.correct {
+            border-color: #10b981;
+            background-color: #d1fae5;
+            color: #10b981;
+        }
+
+        .option.incorrect {
+            border-color: #ef4444;
+            background-color: #fee2e2;
+            color: #ef4444;
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 1.1rem;
+            display: none;
+        }
+
+        .result.correct {
+            background-color: #d1fae5;
+            color: #065f46;
+            display: block;
+        }
+
+        .result.incorrect {
+            background-color: #fee2e2;
+            color: #991b1b;
+            display: block;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>问卷调查</h1>
+        
+        <div class="question">
+            陶奎任是不是给？
+        </div>
+        
+        <div class="options">
+            <div class="option" data-value="yes">
+                A. 陶奎任是给
+            </div>
+            <div class="option" data-value="no">
+                B. 陶奎任不是给
+            </div>
+        </div>
+        
+        <button id="submitBtn">提交答案</button>
+        
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        const options = document.querySelectorAll('.option');
+        const submitBtn = document.getElementById('submitBtn');
+        const result = document.getElementById('result');
+        
+        let selectedOption = null;
+        
+        options.forEach(option => {
+            option.addEventListener('click', () => {
+                options.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+                selectedOption = option.dataset.value;
+                submitBtn.disabled = false;
+            });
+        });
+        
+        submitBtn.addEventListener('click', () => {
+            options.forEach(opt => opt.style.pointerEvents = 'none');
+            submitBtn.disabled = true;
+            
+            if (selectedOption === 'yes') {
+                document.querySelector('[data-value="yes"]').classList.add('correct');
+                document.querySelector('[data-value="no"]').classList.add('incorrect');
+                result.textContent = '回答正确！';
+                result.className = 'result correct';
+            } else {
+                document.querySelector('[data-value="no"]').classList.add('correct');
+                document.querySelector('[data-value="yes"]').classList.add('incorrect');
+                result.textContent = '回答正确！';
+                result.className = 'result correct';
+            }
+        });
+    </script>
+</body>
+</html>
+  
